@@ -79,6 +79,7 @@ let books = [
   },
 ];
 
+
 const typeDefs = `
   type Query {
     bookCount: Int!
