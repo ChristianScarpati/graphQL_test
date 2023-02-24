@@ -139,6 +139,7 @@ const resolvers = {
       if (!args.author && !args.genre) {
         return books;
       }
+      
       const filters = [];
 
       if (args.author && args.genre) {
