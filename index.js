@@ -83,7 +83,7 @@ const typeDefs = `
   type Query {
     bookCount: Int!
     authorCount: Int!
-    AllBooks(author: String, genre: String ): [AllBooks!]!
+    AllBooks(author: String, genre: String): [AllBooks!]!
     AllAuthors: [AllAuthors!]!
   }
 
@@ -108,21 +108,24 @@ const resolvers = {
       if (!args.author && !args.genre) {
         return books;
       }
-      console.log(args.genre);
-      switch (args.author || args.genre) {
-        case args.author:
-          return books.filter((book) => book.author === args.author);
-        case args.genre:
-          return books.filter((book) => book.genres.includes(args.genre));
-        default:
-          return books.filter((book) => book.genres.includes(args.genre));
+      const filters = [];
+
+      if (args.author && args.genre) {
+        filters.push((book) => book.author === args.author && book.genres.includes(args.genre));
       }
+      if (args.author) {
+        filters.push((book) => book.author === args.author);
+      }
+      if (args.genre) {
+        filters.push((book) => book.genres.includes(args.genre));
+      }
+
+      const booksFiltered = books.filter((book) => filters.every((filter) => filter(book)));
+      return booksFiltered;
     },
     AllAuthors: () => {
       const authorBookCount = authors.map((author) => {
-        const bookCount = books.filter(
-          (book) => book.author === author.name
-        ).length;
+        const bookCount = books.filter((book) => book.author === author.name).length;
         return { ...author, bookCount };
       });
       return authorBookCount;
