@@ -2,8 +2,6 @@ const { ApolloServer } = require("@apollo/server");
 const { startStandaloneServer } = require("@apollo/server/standalone");
 const { v4: uuid } = require("uuid");
 
-console.log('test console log')
-
 let authors = [
   {
     name: "Robert Martin",
@@ -141,7 +139,7 @@ const resolvers = {
       if (!args.author && !args.genre) {
         return books;
       }
-
+      
       const filters = [];
 
       if (args.author && args.genre) {
