@@ -139,7 +139,7 @@ const resolvers = {
       if (!args.author && !args.genre) {
         return books;
       }
-      
+
       const filters = [];
 
       if (args.author && args.genre) {
@@ -195,3 +195,4 @@ startStandaloneServer(server, {
 }).then(({ url }) => {
   console.log(`Server ready at ${url}`);
 });
+
